@@ -202,7 +202,7 @@ bool Renderer::scene_intersect(V3 orig, V3 direction)
     Intersect intersect;
     bool returnstatus = false;
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < sceneSize; i++)
     {
         Intersect hit = scene[i].ray_intersect(orig, direction);
         if (hit.valid)
@@ -256,8 +256,7 @@ void Renderer::render()
             long double i = (2 * (x + 0.5) / width - 1) * tan(fov / 2) * width / height;
             long double j = (2 * (y + 0.5) / height - 1) * tan(fov / 2);
             V3 direction = norm(V3(i, j, -1));
-            V3 temp;
-            V3 color_temp = cast_ray(temp, direction);
+            V3 color_temp = cast_ray(camera, direction);
             Color color(
                 color_temp.x,
                 color_temp.y,

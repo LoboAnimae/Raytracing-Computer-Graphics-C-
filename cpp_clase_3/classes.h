@@ -1,8 +1,4 @@
-#pragma region Helper Math Functions
-#pragma endregion
-
-
-
+#include <vector>
 
 class V3
 {
@@ -15,7 +11,8 @@ public:
         y = y_arg;
         z = z_arg;
     }
-    V3(){
+    V3()
+    {
         x = 0;
         y = 0;
         z = 0;
@@ -121,27 +118,29 @@ public:
     Intersect ray_intersect(V3 orig, V3 direction);
 };
 
-
-
 class Renderer
 {
 public:
-    int height, width;
+    int height, width, sceneSize = 0;
     unsigned char *pixels;
     Material currentMaterial;
     Intersect currentIntersect;
-    Sphere scene[3];
+    std::vector<Sphere> scene;
     Light light;
+    V3 camera;
 
-    Renderer(int x, int y, Sphere *scene1, Light light1)
+    Renderer(int x, int y, Sphere scene_arg[], Light light_arg, int sceneSize_arg, V3 camera1)
     {
         width = x;
         height = y;
+        sceneSize = sceneSize_arg;
         pixels = new unsigned char[width * height * 3];
-        scene[0] = scene1[0];
-        scene[1] = scene1[1];
-        scene[2] = scene1[2];
-        light = light1;
+        for (int i = 0; i < sceneSize; i++)
+        {
+            scene.push_back(scene_arg[i]);
+        }
+        light = light_arg;
+        camera = camera1;
     }
 
     void generateBMP(char *ImageFileName);
